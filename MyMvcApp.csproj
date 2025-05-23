@@ -10,7 +10,9 @@
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="4.1.0" />
   </ItemGroup>
 
-  <!-- Ensure no test files are included in the main project -->
-  <!-- No <Compile Include="MyMvcApp.Tests\**\*.cs" /> or similar lines should be present -->
+  <ItemGroup>
+    <Compile Remove="MyMvcApp.Tests\**\*.cs" />
+    <None Remove="MyMvcApp.Tests\**\*.*" />
+  </ItemGroup>
 
 </Project>

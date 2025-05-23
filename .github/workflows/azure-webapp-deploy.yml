@@ -21,6 +21,12 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Išvalyti projektą
+        run: dotnet clean
+
+      - name: Atkurti paketus
+        run: dotnet restore
+
       - name: Sukompiliuoti projektą
         run: dotnet build --configuration Release
 
