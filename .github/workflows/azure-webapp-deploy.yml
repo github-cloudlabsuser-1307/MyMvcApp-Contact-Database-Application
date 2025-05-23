@@ -1,0 +1,42 @@
+# This workflow was generated for Azure App Service deployment using Deployment Center
+# Lietuviškai: Šis GitHub veiksmų scenarijus (workflow) automatiškai publikuos jūsų ASP.NET MVC programą į Azure Web App.
+
+name: Deploy ASP.NET MVC į Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gauti šaltinio kodą
+        uses: actions/checkout@v4
+
+      - name: Nustatyti .NET versiją
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Sukompiliuoti projektą
+        run: dotnet build --configuration Release
+
+      - name: Publikuoti projektą
+        run: dotnet publish -c Release -o ./publish
+
+      - name: Įdiegti Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
+
+# Pastabos lietuviškai:
+# 1. Pridėkite Azure Web App pavadinimą ir publikavimo profilį į repo "Secrets" kaip:
+#    - AZURE_WEBAPP_NAME
+#    - AZURE_WEBAPP_PUBLISH_PROFILE
+# 2. Šis workflow veikia su pagrindine (main) šaka. Jei naudojate kitą šaką, pakeiskite ją aukščiau.
+# 3. Publikavimo profilį galite atsisiųsti iš Azure portalo (Web App > Deployment Center > Get publish profile).
